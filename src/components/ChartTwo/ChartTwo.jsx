@@ -43,7 +43,7 @@ const ChartTwo = () => {
         }
         array.push(obj)
       })
-      return  array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
+      return array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
     }
     setData(productData())
 
@@ -56,13 +56,13 @@ const ChartTwo = () => {
   }, [data])
 
   return (
-    <Paper className='total-earned'>
+    <div className="chart-two">
       <div className='total-title'>
         Total earned
       </div>
       <Chart
         data={data}
-        height={190}
+        height={105}
       >
         <LineSeries
           valueField="sales"
@@ -73,7 +73,7 @@ const ChartTwo = () => {
       <div className='total-sales'>
         $ {totalSales}
       </div>
-    </Paper>
+    </div>
   )
 }
 

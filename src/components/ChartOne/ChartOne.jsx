@@ -8,10 +8,40 @@ import {
 import { Animation } from '@devexpress/dx-react-chart';
 import { useEffect, useState } from "react";
 import './style.scss'
-import { withStyles } from "@material-ui/core/styles";
+import { createMuiTheme, withStyles } from "@material-ui/core/styles";
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { makeStyles } from "@material-ui/core";
 
 const ChartOne = () => {
+
+  const styles = {
+    backgroundColor: "grey",
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px",
+    color: "black",
+    height: 48,
+    padding: "0 30px",
+    margin: 10
+  };
+
+  const useStyles = makeStyles({
+    button: {
+      backgroundColor: "grey",
+      border: 0,
+      borderRadius: 3,
+      boxShadow: "0 3px 5px 2px",
+      color: "black",
+      height: 48,
+      padding: "0 30px",
+      margin: 10
+    }
+  });
+
+  const classes = useStyles();
+  const LegendComp = styled(Legend)({ ...styles });
 
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
@@ -21,44 +51,15 @@ const ChartOne = () => {
       display: 'flex',
       margin: 'auto',
       flexDirection: 'column',
-    },
-  });
-
-  const legendStyles1 = () => ({
-    root: {
-      height: "197px",
-    },
-  });
-
-  const legendLabelStyles = theme => ({
-    label: {
-      paddingTop: theme.spacing(1),
-      whiteSpace: 'nowrap',
-      fontSize: '13px'
-    },
-  });
-
-  const legendItemStyles = () => ({
-    item: {
-      flexDirection: 'column',
-      fontSize: '13px'
+      justifyContent: 'space-between',
+      fontSize: '13px',
     },
   });
 
   const legendRootBase = ({classes, ...restProps}) => (
     <Legend.Root {...restProps} className={classes.root}/>
   );
-
-  const legendLabelBase = ({classes, ...restProps}) => (
-    <Legend.Label className={classes.label} {...restProps} />
-  );
-  const legendItemBase = ({classes, ...restProps}) => (
-    <Legend.Item className={classes.item} {...restProps}  />
-  );
   const Root = withStyles(legendStyles, {name: 'LegendRoot'})(legendRootBase);
-  const Root1 = withStyles(legendStyles1, {name: 'LegendRoot'})(legendRootBase);
-  const Label = withStyles(legendLabelStyles, {name: 'LegendLabel'})(legendLabelBase);
-  const Item = withStyles(legendItemStyles, {name: 'LegendItem'})(legendItemBase);
 
   useEffect(() => {
       getAllPosition1()
@@ -86,28 +87,26 @@ const ChartOne = () => {
 
   return (
     <div className='chart-one'>
-        <div className='total-title'>
-          Sales schedule by day
-        </div>
-        <Chart
-          data={data}
+      <div className='total-title'>
+        Sales schedule by day
+      </div>
+      <Chart
+        data={data}
+        height='200'
+        width="370"
+      >
+        <PieSeries
+          valueField="area"
+          argumentField="goods"
           height='200'
-          width="320"
-
-        >
-          <PieSeries
-            valueField="area"
-            argumentField="goods"
-            height='197'
-            width="197"
-          />
-          <Legend
-            marginLeft='20'
-            position="right"
-            fontSize="13"
-          />
-          <Animation/>
-        </Chart>
+          width="200"
+        />
+        <Animation/>
+        <Legend
+          position="right"
+          font="13"
+        />
+      </Chart>
     </div>
 
   );

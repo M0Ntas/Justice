@@ -52,26 +52,29 @@ const ChartThree = () => {
   }, [products])
 
   return (
-    <Paper>
-      <div className='total-title'>
-        Sales Overview
+      <div className='chart-three-style'>
+        <div className='total-title'>
+          Sales Overview
+        </div>
+        <div className='sub-title'>
+          Graph sales for all days
+        </div>
+        <Chart
+          data={data}
+          height='450'
+        >
+          <ArgumentAxis
+          />
+          <ValueAxis
+            max={7}
+          />
+          <BarSeries
+            valueField="sales"
+            argumentField="day"
+          />
+          <Animation/>
+        </Chart>
       </div>
-      <Chart
-        data={data}
-        height={'569'}
-      >
-        <ArgumentAxis
-        />
-        <ValueAxis
-          max={7}
-        />
-        <BarSeries
-          valueField="sales"
-          argumentField="day"
-        />
-        <Animation/>
-      </Chart>
-    </Paper>
   );
 
 }

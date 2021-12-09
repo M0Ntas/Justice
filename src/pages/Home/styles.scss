@@ -23,6 +23,7 @@
       height: 325px;
       background: #ffffff;
       margin-bottom: 24px;
+      border-radius: 3px;
     }
 
     .two {
@@ -32,6 +33,7 @@
       background: #ffffff;
       align-items: center;
       justify-content: center;
+      border-radius: 3px;
 
     }
   }
@@ -42,14 +44,12 @@
     font-size: 18px;
     line-height: 18px;
   }
-  .total-sales{
-    text-align: center;
-  }
 
   .tables-right {
     width: 100%;
 
     .three {
+      border-radius: 3px;
       height: 569px;
       background: #ffffff;
     }
