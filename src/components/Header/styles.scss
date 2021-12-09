@@ -1,0 +1,65 @@
+@import "../../variables";
+
+.header {
+  background: #ffffff;
+  width: 274px;
+  height: 100vh;
+  font-size: 14px;
+  display: block;
+  position: sticky;
+  top: 0;
+
+  .logo {
+    padding: 48px 46px 64px 40px;
+    cursor: pointer;
+  }
+
+  .menu {
+    a {
+      display: flex;
+      align-items: center;
+      padding: 21px 0;
+      text-decoration: none;
+      color: $blue;
+      filter: grayscale(1);
+      opacity: .7;
+      position: relative;
+
+      img {
+        margin-left: 40px;
+        margin-right: 11px;
+      }
+    }
+
+    .active {
+      filter: grayscale(0);
+      opacity: 1;
+      background: rgba(83, 130, 231, .04);
+
+      &:after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        right: 0;
+        top: 0;
+        height: 100%;
+        background: $blue;
+      }
+    }
+  }
+
+  .logout {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 48px;
+
+    img {
+      margin-left: 40px;
+      margin-right: 9px;
+    }
+  }
+}
+

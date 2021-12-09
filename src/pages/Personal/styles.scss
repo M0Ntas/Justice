@@ -1,0 +1,52 @@
+.personal {
+  display: flex;
+  justify-content: space-between;
+}
+
+hr {
+  margin-top: 32px;
+  color: #3C4E60;
+  opacity: 8%;
+}
+
+.personal-input label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.personal-form {
+  padding-top: 53px;
+  display: flex;
+
+  label {
+    color: #354352;
+    font-size: 12px;
+  }
+
+  .personal-input {
+    margin-bottom: 33px;
+  }
+
+  .input-left {
+    width: 380px;
+
+    button {
+      width: 158px;
+    }
+  }
+
+  .input-right {
+    width: 380px;
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+
+    .personal-input:last-child {
+      margin-top: auto;
+    }
+  }
+}
+
+.personal-button {
+  max-width: 158px;
+}

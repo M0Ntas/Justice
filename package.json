@@ -1,21 +1,49 @@
 {
-  "name": "crm-justice",
+  "name": "justice-crm",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devexpress/dx-react-chart": "^2.7.6",
+    "@devexpress/dx-react-chart-material-ui": "^2.7.6",
+    "@devexpress/dx-react-core": "^2.7.6",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
+    "@mui/material": "^5.2.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "chart.js": "^3.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.14",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "node-sass": "4.14.1",
+    "passport": "^0.5.0",
+    "passport-jwt": "^4.0.0",
     "react": "^17.0.2",
+    "react-alert": "^7.0.3",
+    "react-alert-template-basic": "^1.0.2",
+    "react-chartjs-2": "^4.0.0",
     "react-dom": "^17.0.2",
+    "react-moment": "^1.1.1",
+    "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
+    "recharts": "^2.1.6",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "nodemon backend/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +62,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

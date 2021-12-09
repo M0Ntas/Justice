@@ -1,0 +1,63 @@
+.home {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(43, 56, 68, 0.08);;
+  padding-bottom: 32px;
+}
+
+.tables {
+  margin-top: 40px;
+  display: flex;
+
+  .tables-left {
+    display: block;
+    margin-right: 24px;
+
+    .one {
+      width: 455px;
+      height: 325px;
+      background: #ffffff;
+      margin-bottom: 24px;
+    }
+
+    .two {
+      display: block;
+      width: 455px;
+      height: 220px;
+      background: #ffffff;
+      align-items: center;
+      justify-content: center;
+
+    }
+  }
+
+  .total-title{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+  }
+  .total-sales{
+    text-align: center;
+  }
+
+  .tables-right {
+    width: 100%;
+
+    .three {
+      height: 569px;
+      background: #ffffff;
+    }
+  }
+}
+
+hr {
+  margin-top: 32px;
+  color: #3C4E60;
+  opacity: 8%;
+}

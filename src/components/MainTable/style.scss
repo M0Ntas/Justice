@@ -1,0 +1,38 @@
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+
+  .table-button {
+    color: #5382E7;
+    background: rgba(83, 130, 231, 0.1);
+    border: #5382E7;
+    border-radius: 3px;
+    width: 33%;
+    height: 28px;
+    cursor: pointer;
+  }
+
+  .table-button-delete {
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+}
+.select{
+  select{
+    background: white;
+    display: block;
+    width: 100%;
+    height: 46px;
+    font-weight: normal;
+    font-size: 14px;
+    border: 2px solid rgba(43, 56, 68, 0.25);
+    border-radius: 3px;
+    padding-left: 16px;
+  }
+
+}
