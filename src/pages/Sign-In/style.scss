@@ -39,13 +39,15 @@
         margin-top: 32px;
         text-align: center;
         transition: 1s;
+
         span {
           font-size: 14px;
           color: #5382E7;
           cursor: pointer;
 
         }
-        &:hover{
+
+        &:hover {
           transform: scale(1.2);
         }
       }

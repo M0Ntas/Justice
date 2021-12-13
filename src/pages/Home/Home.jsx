@@ -9,11 +9,9 @@ import ChartOne from "../../components/ChartOne/ChartOne";
 const Home = () => {
 
   const [open, setOpen] = useState(false)
-
   const [trigger, setTrigger] = useState(false)
 
-  return (
-    <div className="container">
+  return (<div className="container">
       <TitleHeader
         title={"Sales statistics"}
         subtitle={"Welcome to CRM dashboard"}
@@ -35,8 +33,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </div>
-  )
+    </div>)
 };
 
 export default Home;

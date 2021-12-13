@@ -4,15 +4,14 @@ import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import { getUser } from "../../api/auth/getUser";
-import { updateCategory } from "../../api/category/updateCategory";
 import { updateUser } from "../../api/auth/updateUser";
 
 const Personal = () => {
 
-  const personal = {
-
-  };
   const [open, setOpen] = useState(false);
+  const [isMount, setIsMount] = useState(true)
+  const [trigger, setTrigger] = useState(false)
+
   const [inputsLeft, setInputsLeft] = useState([
     {
       type: 'text',
@@ -39,6 +38,7 @@ const Personal = () => {
       id: Date.now(),
       placeholder: 'Enter old password',
       handler: 'oldPassword',
+      error: ''
     },
   ])
 
@@ -65,7 +65,6 @@ const Personal = () => {
     },
   ])
 
-
   const [form, setForm] = useState({
     firstName: '',
     companyName: '',
@@ -77,41 +76,56 @@ const Personal = () => {
     value: ''
   });
 
-  const changeLeftInput = event => {
-    const {value} = event.target
-    const key = event.target.getAttribute('handler')
-  };
-
   const changeHandler = event => {
     const key = event.target.getAttribute('handler')
     setForm({
       ...form,
       [key]: event.target.value
     })
-    console.log('====>form<====', form)
   };
-  const [trigger, setTrigger] = useState(false)
-
-useEffect(() => {
-  getUser().then((res) => setForm({
-    firstName: res.firstName,
-    companyName: res.companyName,
-    address: res.address,
-    oldPassword: '',
-    lastName: res.lastName,
-    email: res.email,
-    newPassword: '',
-    _id: res._id
-  }))
-},[])
 
   const handleSaveChanges = () => {
     const obj = {
       ...form
     }
     updateUser(obj)
-    alert('data updated')
+      .then(res => {
+        if (res.error) {
+          isMount && setInputsLeft(prev => {
+            prev.map(item => {
+              if (item.handler === 'oldPassword') {
+                item.error = res.error
+                return item
+              }
+              return item
+            })
+            console.log('====><====', prev)
+            return [
+              ...prev
+            ]
+          })
+        }
+      })
   }
+
+  useEffect(() => {
+    getUser().then((res) => isMount && setForm({
+      firstName: res.firstName,
+      companyName: res.companyName,
+      address: res.address,
+      oldPassword: '',
+      lastName: res.lastName,
+      email: res.email,
+      newPassword: '',
+      _id: res._id
+    }))
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   return (
     <div className="container">
@@ -127,7 +141,11 @@ useEffect(() => {
           {inputsLeft.map((item, index) => {
             return (
               <div className="personal-input" key={index + 2}>
-                <label>{item.placeholder}</label>
+                <label
+                  className={item.error ? 'error' : ''}
+                >
+                  {item.error ? item.error : item.placeholder}
+                </label>
                 <Input
                   id={item.id}
                   value={form[item.handler]}

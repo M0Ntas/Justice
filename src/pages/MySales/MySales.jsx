@@ -7,10 +7,10 @@ import { getAllPosition1 } from "../../api/position/getAllPosition1";
 const MySales = () => {
 
   const [items, setItems] = useState([])
-
   const [open, setOpen] = useState(false)
-
   const [trigger, setTrigger] = useState(false)
+  const [isMount, setIsMount] = useState(true)
+
 
   const headTable = [
     'Product name',
@@ -24,13 +24,19 @@ const MySales = () => {
     'Last sale'
   ]
 
-  useEffect( ()=>{
+  useEffect(() => {
       getAllPosition1()
         .then(res => {
-          setItems(res)
+          isMount && setItems(res)
         })
     }
-    ,[])
+    , [])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   return (
     <div className="container">

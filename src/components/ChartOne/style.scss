@@ -13,7 +13,16 @@
     font-size: 13px;
   }
 }
-
+.empty{
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  color: #2B3844;
+  width: 89%;
+  height: 72%;
+  display: flex;
+  flex-direction: column;
+}
 .chart-one {
   width: 455px;
   height: 325px;
@@ -22,10 +31,9 @@
   padding-bottom: 32px;
   border-radius: 3px;
 
-  .legend-chart{
+  .legend-chart {
     margin-left: 50px;
   }
-
   .paper-all {
     height: 325px;
 

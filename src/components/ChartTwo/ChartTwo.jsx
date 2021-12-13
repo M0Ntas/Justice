@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
 import { Chart, LineSeries } from '@devexpress/dx-react-chart-material-ui';
 import { useEffect, useState } from "react";
 import './style.scss'
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+import empty from "../../images/icons/empty.svg";
 
 const ChartTwo = () => {
 
@@ -11,14 +11,22 @@ const ChartTwo = () => {
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
   const [totalSales, setTotalSales] = useState('')
+  const [isMount, setIsMount] = useState(true)
+
 
   useEffect(() => {
       getAllPosition1()
         .then(res => {
-          setProducts(res)
+          isMount && setProducts(res)
         })
     }
     , [])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   useEffect(() => {
     const productData = () => {
@@ -36,7 +44,6 @@ const ChartTwo = () => {
         } else {
           totalPrice = element.price * element.numberOfProducts
         }
-
         const obj = {
           day: element.salesDate,
           sales: totalPrice,
@@ -60,19 +67,32 @@ const ChartTwo = () => {
       <div className='total-title'>
         Total earned
       </div>
-      <Chart
-        data={data}
-        height={105}
-      >
-        <LineSeries
-          valueField="sales"
-          argumentField="day"
-          color='#1CAF7F'
-        />
-      </Chart>
-      <div className='total-sales'>
-        $ {totalSales}
-      </div>
+      {data.length <1 ? (
+        <div className='empty'>
+          <div>
+            <img src={empty} alt='empty'/>
+          </div>
+          <div>
+            <span>Go to "my products" and sell them</span>
+          </div>
+        </div>) : (
+        <div>
+          <Chart
+            data={data}
+            height={105}
+          >
+            <LineSeries
+              valueField="sales"
+              argumentField="day"
+              color='#1CAF7F'
+            />
+          </Chart>
+          <div className='total-sales'>
+            $ {totalSales}
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

@@ -1,4 +1,3 @@
-
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -14,7 +13,11 @@
     height: 28px;
     cursor: pointer;
   }
-
+  .empty{
+    display: block;
+    align-items: center;
+    justify-content: center;
+  }
   .table-button-delete {
     outline: none;
     border: none;
@@ -22,8 +25,9 @@
     cursor: pointer;
   }
 }
-.select{
-  select{
+
+.select {
+  select {
     background: white;
     display: block;
     width: 100%;

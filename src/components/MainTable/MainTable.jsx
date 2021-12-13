@@ -26,15 +26,16 @@ const testComp = ({onChange, handler, placeholder}) => {
         onChange={onChange}
         handler={handler}
         placeholder={placeholder}
+        defaultValue={'DEFAULT'}
       >
-        <option selected disabled>Select a day</option>
-        <option>Mon</option>
-        <option>Tue</option>
-        <option>Wed</option>
-        <option>Thu</option>
-        <option>Fri</option>
-        <option>Sat</option>
-        <option>Sun</option>
+        <option value="DEFAULT" disabled>Select a day</option>
+        <option value='Mon'>Mon</option>
+        <option value='Tue'>Tue</option>
+        <option value='Wed'>Wed</option>
+        <option value='Thu'>Thu</option>
+        <option value='Fri'>Fri</option>
+        <option value='Sat'>Sat</option>
+        <option value='Sun'>Sun</option>
       </select>
     </div>
   )
@@ -77,6 +78,7 @@ const MainTable = (
   const [deleted, setDeleted] = useState(false)
   const [update, setUpdate] = useState(false)
   const [address, setAddress] = useState('')
+  const [isMount, setIsMount] = useState(true)
 
   const sellInputs = [
     {
@@ -194,10 +196,16 @@ const MainTable = (
   }
   useEffect(() => {
       getUser().then(res => {
-        setAddress(res.address)
+        isMount && setAddress(res.address)
       })
     }
     , [deleted, update,])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   return (
     <TableContainer component={Paper}>
@@ -275,9 +283,9 @@ const MainTable = (
       {sell && <Modal
         onClick={setSell}
         title="Sell the product">
-        {sellInputs.map((item) => {
+        {sellInputs.map((item, index) => {
           return (
-            <div className="modal-input-wrap" key={item.id}>
+            <div className="modal-input-wrap" key={index + 44}>
               {item.component
                 ?
                 <item.component

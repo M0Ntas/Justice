@@ -16,14 +16,6 @@ const SignIn = ({setIsAuth}) => {
   const [validForm, setValidForm] = useState(false);
   const history = useHistory();
 
-  useEffect(() => {
-    if (emailError || passwordError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [emailError, passwordError])
-
   const [formUsers, setFormUsers] = useState({
     email: '',
     password: '',
@@ -38,7 +30,6 @@ const SignIn = ({setIsAuth}) => {
   };
 
   const handleLogIn = () => {
-
     if (formUsers.email && formUsers.password) {
       authUser(formUsers)
         .then(res => {
@@ -98,6 +89,14 @@ const SignIn = ({setIsAuth}) => {
         break
     }
   };
+
+  useEffect(() => {
+    if (emailError || passwordError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [emailError, passwordError])
 
   return (
     <div className='sign-in-page'>

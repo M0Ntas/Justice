@@ -21,15 +21,21 @@ const MyProducts = () => {
   const [open, setOpen] = useState(false);
   const [trigger, setTrigger] = useState(false)
   const [items, setItems] = useState([]);
+  const [isMount, setIsMount] = useState(true)
 
-
-  useEffect( ()=>{
+  useEffect(() => {
       getAllCategory()
         .then(res => {
-          setItems(res)
+          isMount && setItems(res)
         })
     }
-    ,[])
+    , [])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   return (
     <div className="container">

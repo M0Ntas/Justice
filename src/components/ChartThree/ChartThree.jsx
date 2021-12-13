@@ -1,27 +1,33 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import {
-  Chart,
-  BarSeries,
+  Chart, BarSeries,
 } from '@devexpress/dx-react-chart-material-ui';
 import { ArgumentAxis, ValueAxis } from '@devexpress/dx-react-chart';
 import { Animation } from '@devexpress/dx-react-chart';
 import './style.scss'
 import { useEffect, useState } from "react";
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+import empty from "../../images/icons/empty.svg";
 
 const ChartThree = () => {
 
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
+  const [isMount, setIsMount] = useState(true)
 
   useEffect(() => {
-      getAllPosition1()
-        .then(res => {
-          setProducts(res)
-        })
+    getAllPosition1()
+      .then(res => {
+        isMount && setProducts(res)
+      })
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
     }
-    , [])
+  })
 
   useEffect(() => {
     const dataProducts = () => {
@@ -41,8 +47,7 @@ const ChartThree = () => {
         }
 
         const obj = {
-          day: element.salesDate,
-          sales: totalPrice,
+          day: element.salesDate, sales: totalPrice,
         }
         array.push(obj)
       })
@@ -51,31 +56,40 @@ const ChartThree = () => {
     setData(dataProducts())
   }, [products])
 
-  return (
-      <div className='chart-three-style'>
-        <div className='total-title'>
-          Sales Overview
+  return (<div className='chart-three-style'>
+    <div className='total-title'>
+      Sales Overview
+    </div>
+    <div className='sub-title'>
+      Graph sales for all days
+    </div>
+    {data.length <1 ? (
+      <div className='empty'>
+        <div>
+          <img src={empty} alt='empty'/>
         </div>
-        <div className='sub-title'>
-          Graph sales for all days
+        <div>
+          <span>Go to "my products" and sell them</span>
         </div>
-        <Chart
-          data={data}
-          height='450'
-        >
-          <ArgumentAxis
-          />
-          <ValueAxis
-            max={7}
-          />
-          <BarSeries
-            valueField="sales"
-            argumentField="day"
-          />
-          <Animation/>
-        </Chart>
-      </div>
-  );
+      </div>) : (
+    <div>
+      <Chart
+        data={data}
+        height='450'
+      >
+        <ArgumentAxis
+        />
+        <ValueAxis
+          max={7}
+        />
+        <BarSeries
+          valueField="sales"
+          argumentField="day"
+        />
+        <Animation/>
+      </Chart>
+    </div>)}
+  </div>);
 
 }
 

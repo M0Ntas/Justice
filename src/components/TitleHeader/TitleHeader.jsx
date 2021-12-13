@@ -13,15 +13,11 @@ import { createCategory } from "../../api/category/createCategory";
 
 const TitleHeader = ({title, subtitle, setTrigger}) => {
 
-  const history = useHistory();
-
   const [open, setOpen] = useState(false);
-
   const [form, setForm] = useState({});
+  const [isMount, setIsMount] = useState(true)
 
-  useEffect(() => {
-    setTrigger(prevState => (!prevState))
-  }, [open])
+  const history = useHistory();
 
   const changeHandler = event => {
     const key = event.target.getAttribute('handler')
@@ -33,16 +29,20 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
   };
 
   const handleAddProduct = () => {
-      createCategory(form)
-        .then(res => {
-          if (res.status) {
-            history.push('/sign-in')
-          }
-          history.push('/my-products')
-        })
+    createCategory(form)
+      .then(res => {
+        if (res.status) {
+          isMount && history.push('/sign-in')
+        }
+        history.push('/my-products')
+      })
   };
 
-
+  useEffect(() => {
+    return () => {
+      setIsMount(false)
+    }
+  })
 
   return (
     <div className="header-title">
@@ -59,9 +59,9 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
       {open && <Modal
         onClick={setOpen}
         title="Creating a product">
-        {inputsRender.map((item) => {
+        {inputsRender.map((item, index) => {
           return (
-            <div className="modal-input-wrap" key={item.id}>
+            <div className="modal-input-wrap" key={index + 56}>
               <Input
                 placeholder={item.placeholder}
                 type={item.type}
