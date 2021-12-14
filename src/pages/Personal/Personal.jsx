@@ -9,7 +9,6 @@ import { updateUser } from "../../api/auth/updateUser";
 const Personal = () => {
 
   const [open, setOpen] = useState(false);
-  const [isMount, setIsMount] = useState(true)
   const [trigger, setTrigger] = useState(false)
 
   const [inputsLeft, setInputsLeft] = useState([
@@ -91,7 +90,7 @@ const Personal = () => {
     updateUser(obj)
       .then(res => {
         if (res.error) {
-          isMount && setInputsLeft(prev => {
+          setInputsLeft(prev => {
             prev.map(item => {
               if (item.handler === 'oldPassword') {
                 item.error = res.error
@@ -109,7 +108,7 @@ const Personal = () => {
   }
 
   useEffect(() => {
-    getUser().then((res) => isMount && setForm({
+    getUser().then((res) => setForm({
       firstName: res.firstName,
       companyName: res.companyName,
       address: res.address,
@@ -120,12 +119,6 @@ const Personal = () => {
       _id: res._id
     }))
   }, [])
-
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
-    }
-  })
 
   return (
     <div className="container">

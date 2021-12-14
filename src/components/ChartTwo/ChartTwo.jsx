@@ -11,22 +11,15 @@ const ChartTwo = () => {
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
   const [totalSales, setTotalSales] = useState('')
-  const [isMount, setIsMount] = useState(true)
 
 
   useEffect(() => {
       getAllPosition1()
         .then(res => {
-          isMount && setProducts(res)
+          setProducts(res)
         })
     }
     , [])
-
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
-    }
-  })
 
   useEffect(() => {
     const productData = () => {

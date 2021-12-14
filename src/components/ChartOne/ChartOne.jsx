@@ -20,7 +20,7 @@ const ChartOne = () => {
   useEffect(() => {
       getAllPosition1()
         .then(res => {
-          isMount && setProducts(res)
+          setProducts(res)
         })
     }
     , [])
@@ -40,13 +40,6 @@ const ChartOne = () => {
     }
     setData(dataProduct())
   }, [products])
-
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
-    }
-  })
-
 
   return (
     <div className='chart-one'>

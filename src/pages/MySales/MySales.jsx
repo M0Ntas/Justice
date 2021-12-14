@@ -9,7 +9,6 @@ const MySales = () => {
   const [items, setItems] = useState([])
   const [open, setOpen] = useState(false)
   const [trigger, setTrigger] = useState(false)
-  const [isMount, setIsMount] = useState(true)
 
 
   const headTable = [
@@ -27,16 +26,11 @@ const MySales = () => {
   useEffect(() => {
       getAllPosition1()
         .then(res => {
-          isMount && setItems(res)
+          setItems(res)
+          console.log('====>resSALES<====', res)
         })
     }
-    , [])
-
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
-    }
-  })
+    , [trigger])
 
   return (
     <div className="container">
@@ -47,7 +41,12 @@ const MySales = () => {
         button="Save changes"
         setTrigger={setTrigger}
       />
-      <MainTable headTable={headTable} items={items} setItems={setItems}/>
+      <MainTable
+        trigger={trigger}
+        headTable={headTable}
+        items={items}
+        setItems={setItems}
+      />
     </div>
   );
 };

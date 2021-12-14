@@ -21,21 +21,18 @@ const MyProducts = () => {
   const [open, setOpen] = useState(false);
   const [trigger, setTrigger] = useState(false)
   const [items, setItems] = useState([]);
-  const [isMount, setIsMount] = useState(true)
+  const [deleted, setDeleted] = useState(false)
+  const [update, setUpdate] = useState(false)
 
+ console.log('====>items44444444444<====', items)
   useEffect(() => {
       getAllCategory()
         .then(res => {
-          isMount && setItems(res)
+          setItems(res)
+          console.log('====>resPRODUCTS<====', res)
         })
     }
-    , [])
-
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
-    }
-  })
+    , [trigger, deleted, update])
 
   return (
     <div className="container">
@@ -46,9 +43,14 @@ const MyProducts = () => {
         setTrigger={setTrigger}
       />
       <MainTable
+        update={update}
+        setUpdate={setUpdate}
+        trigger={trigger}
         headTable={headTable}
         items={items}
         setItems={setItems}
+        deleted={deleted}
+        setDeleted={setDeleted}
       />
     </div>
   );

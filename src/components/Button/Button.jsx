@@ -1,10 +1,10 @@
 import './styles.scss'
 import button from "../../images/icons/button.svg"
 
-const Button = ({onClick, children}) => {
+const Button = ({onClick, children, disabled}) => {
 
   return (
-    <button className="button" onClick={onClick}>
+    <button className="button" disabled={disabled} onClick={onClick}>
       {children}
     </button>
   )

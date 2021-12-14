@@ -15,7 +15,9 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
 
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
-  const [isMount, setIsMount] = useState(true)
+  const [create, setCreate] = useState('')
+  const [validForm, setValidForm] = useState(false);
+  const [formError, setFormError] = useState('Form cannot be empty')
 
   const history = useHistory();
 
@@ -28,21 +30,38 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
     })
   };
 
-  const handleAddProduct = () => {
+  useEffect(() => {
+    if (formError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [formError])
+
+  const handleAddProduct = (e) => {
     createCategory(form)
       .then(res => {
         if (res.status) {
-          isMount && history.push('/sign-in')
+          history.push('/sign-in')
         }
+        setTrigger(prev => !prev)
+        setOpen(false)
         history.push('/my-products')
       })
   };
 
-  useEffect(() => {
-    return () => {
-      setIsMount(false)
+  const changeHandlerEdit = (e) => {
+    setCreate(e.target.value)
+    if (e.target.value.length > 14) {
+      setFormError('Many letters')
+      if (!e.target.value) {
+        setFormError('Form cannot be empty')
+      }
+    } else {
+      setFormError('')
+      changeHandler(e)
     }
-  })
+  };
 
   return (
     <div className="header-title">
@@ -66,16 +85,23 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
                 placeholder={item.placeholder}
                 type={item.type}
                 handler={item.handler}
-                onChange={changeHandler}
+                onChange={changeHandlerEdit}
               />
             </div>
           )
         })}
-        <div className="modal-button">
-          <Button onClick={handleAddProduct}>
-            <span>Add products <img src={plus} alt='add'/></span>
-          </Button>
-        </div>
+        {validForm ? (
+          <div className="modal-button">
+            <Button onClick={handleAddProduct}>
+              <span>Add products <img src={plus} alt='add'/></span>
+            </Button>
+          </div>
+        ) : (
+          <div className='error'>
+            {formError}
+          </div>
+        )}
+
       </Modal>
       }
     </div>
