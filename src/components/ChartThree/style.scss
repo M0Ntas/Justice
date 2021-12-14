@@ -2,3 +2,26 @@
 rect {
   fill: rgba(91, 106, 205, 1);
 }
+
+.chart-three-style {
+  padding-left: 32px;
+  padding-top: 32px;
+
+  .total-title {
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    color: rgba(43, 56, 68, 1);
+    margin-bottom: 8px;
+  }
+
+  .sub-title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 12px;
+    color: #2B3844;
+    margin-bottom: 30px;
+  }
+}
+

@@ -12,14 +12,17 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
+  const [repeatPasswordDirty, setRepeatPasswordDirty] = useState(false);
   const [firstNameDirty, setFirstNameDirty] = useState(false);
   const [lastNameDirty, setLastNameDirty] = useState(false);
   const [companyNameDirty, setCompanyNameDirty] = useState(false);
   const [emailError, setEmailError] = useState('E-mail cannot be empty');
   const [passwordError, setPasswordError] = useState('Password cannot be empty');
   const [firstNameError, setFirstNameError] = useState('First Name cannot be empty')
+  const [repeatPasswordError, setRepeatPasswordError] = useState('Password mismatch ');
   const [lastNameError, setLastNameError] = useState('Last Name cannot be empty')
   const [companyNameError, setCompanyNameError] = useState('Company Name cannot be empty');
   const [validForm, setValidForm] = useState(false);
@@ -87,6 +90,22 @@ const SignUp = () => {
     }
   };
 
+  const repeatPasswordHandler = (e) => {
+    setRepeatPassword(e.target.value)
+      if (!e.target.value) {
+        setRepeatPasswordError('Password cannot be empty')
+      } else {
+      setRepeatPasswordError('')
+      changeHandler(e)
+    }
+  };
+
+  useEffect(() => {
+    if (password !== repeatPassword){
+      setRepeatPasswordError('Password mismatch')
+    }
+  },[repeatPassword])
+
   const firstNameHandler = (e) => {
     setFirstName(e.target.value)
     if (e.target.value.length < 1 || e.target.value.length > 8) {
@@ -127,6 +146,7 @@ const SignUp = () => {
   };
 
   const blurHandler = (e) => {
+    console.log('====>e.target.name<====', e.target.name)
     switch (e.target.name) {
       case 'email':
         setEmailDirty(true)
@@ -143,16 +163,19 @@ const SignUp = () => {
       case 'companyName':
         setCompanyNameDirty(true)
         break
+      case 'repeatPassword':
+        setRepeatPasswordDirty(true)
+        break
     }
   };
 
   useEffect(() => {
-    if (emailError || passwordError || firstNameError || lastNameError || companyNameError) {
+    if (emailError || passwordError || firstNameError || lastNameError || companyNameError || repeatPasswordError) {
       setValidForm(false)
     } else {
       setValidForm(true)
     }
-  }, [emailError, passwordError, firstNameError, lastNameError, companyNameError])
+  }, [emailError, passwordError, firstNameError, lastNameError, companyNameError, repeatPasswordError])
 
   useEffect(() => {
     if (form.password === form.repeatPassword) {
@@ -231,21 +254,37 @@ const SignUp = () => {
             {(passwordDirty && passwordError) ?
               <label style={{color: 'red'}} className="label">{passwordError}</label> :
               <label htmlFor="password" className="label">Password</label>}
-            <Input vvalue={password}
-                   onChange={passwordHandler}
-                   onBlur={e => blurHandler(e)}
-                   handler="password"
-                   name='password'
-                   type='password'
-                   placeholder='Enter password'
-                   id="password"
+            <Input
+              vvalue={password}
+              onChange={passwordHandler}
+              onBlur={e => blurHandler(e)}
+              handler="password"
+              name='password'
+              type='password'
+              placeholder='Enter password'
+              id="password"
             />
           </div>
           <div className="input-two">
-            <label>Repeat password</label>
-            <Input onChange={changeHandler} type='password' placeholder='Repeat password' handler="repeatPassword"/>
+            {(repeatPasswordDirty && repeatPasswordError) ?
+              <label style={{color: 'red'}} className="label">{repeatPasswordError}</label> :
+            <label htmlFor="repeatPassword" className="label">Repeat password</label>}
+            <Input
+              vvalue={repeatPassword}
+              onBlur={e => blurHandler(e)}
+              onChange={repeatPasswordHandler}
+              type='password'
+              placeholder='Repeat password'
+              handler="repeatPassword"
+              name='repeatPassword'
+            />
           </div>
-          <button className='button-create-account' disabled={!validForm} onClick={handleCreateAccount}>Create account
+          <button
+            className='button-create-account'
+            disabled={!validForm}
+            onClick={handleCreateAccount}
+          >
+            Create account
           </button>
           <div className='forgot'>
             Already have an account?

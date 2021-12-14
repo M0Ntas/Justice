@@ -10,41 +10,56 @@
 
   .Component-root-1 {
     height: 325px;
-
+    font-size: 13px;
   }
 }
-
+//.empty{
+//  justify-content: center;
+//  align-items: center;
+//  font-size: 13px;
+//  color: #2B3844;
+//  width: 89%;
+//  height: 72%;
+//  display: flex;
+//  flex-direction: column;
+//}
 .chart-one {
   width: 455px;
   height: 325px;
   padding-top: 32px;
   padding-left: 32px;
   padding-bottom: 32px;
+  border-radius: 3px;
 
+  .legend-chart {
+    margin-left: 50px;
+  }
   .paper-all {
     height: 325px;
 
     .Component-root-1 {
       padding-bottom: 40px;
       height: 325px;
-    }
+      font-size: 13px;
 
-  }
+      ul {
+        margin-left: 20px;
+      }
 
-  &:first-child {
-    &:first-child {
-      height: 125px;
+      #center-container {
+        .MuiList-rootLegendRoot-root-2MuiL {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
     }
   }
 }
-.total-title{
+
+.total-title {
   width: 100%;
   text-align: left;
   font-size: 18px;
   color: rgba(43, 56, 68, 1);
-}
-.total-sales{
-  font-size: 24px;
-  color: rgba(43, 56, 68, 1);
-
+  margin-bottom: 37px;
 }

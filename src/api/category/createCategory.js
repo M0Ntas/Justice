@@ -2,9 +2,11 @@ import axios from "axios";
 
 export const createCategory = async (data) => {
   let msg = {}
-  await axios.post('http://localhost:5000/api/category', data, {headers:{
-    "Authorization": localStorage.getItem('token')
-    }})
+  await axios.post('http://localhost:5000/api/category', data, {
+    headers: {
+      "Authorization": localStorage.getItem('token')
+    }
+  })
     .then((res) => {
       msg.status = true
     })

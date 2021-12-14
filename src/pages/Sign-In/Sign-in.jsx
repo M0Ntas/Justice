@@ -11,18 +11,10 @@ const SignIn = ({setIsAuth}) => {
   const [password, setPassword] = useState('');
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
-  const [emailError, setEmailError] = useState('E-mail не может быть пустым');
-  const [passwordError, setPasswordError] = useState('Пароль не может быть пустым');
+  const [emailError, setEmailError] = useState('E-mail cannot be empty');
+  const [passwordError, setPasswordError] = useState('Password cannot be empty');
   const [validForm, setValidForm] = useState(false);
   const history = useHistory();
-
-  useEffect(() => {
-    if (emailError || passwordError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [emailError, passwordError])
 
   const [formUsers, setFormUsers] = useState({
     email: '',
@@ -38,7 +30,6 @@ const SignIn = ({setIsAuth}) => {
   };
 
   const handleLogIn = () => {
-
     if (formUsers.email && formUsers.password) {
       authUser(formUsers)
         .then(res => {
@@ -78,9 +69,9 @@ const SignIn = ({setIsAuth}) => {
   const passwordHandler = (e) => {
     setPassword(e.target.value)
     if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError('Пароль должен быть длиннее 3 и менее 8')
+      setPasswordError('Password must be longer than 3 and less than 8')
       if (!e.target.value) {
-        setPasswordError('Пароль не может быть пустым')
+        setPasswordError('Password cannot be empty')
       }
     } else {
       setPasswordError('')
@@ -98,6 +89,14 @@ const SignIn = ({setIsAuth}) => {
         break
     }
   };
+
+  useEffect(() => {
+    if (emailError || passwordError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [emailError, passwordError])
 
   return (
     <div className='sign-in-page'>

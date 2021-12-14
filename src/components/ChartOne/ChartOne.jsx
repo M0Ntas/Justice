@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import {
   Chart,
   Legend,
@@ -8,57 +7,15 @@ import {
 import { Animation } from '@devexpress/dx-react-chart';
 import { useEffect, useState } from "react";
 import './style.scss'
-import { withStyles } from "@material-ui/core/styles";
+import empty from '../../images/icons/empty.svg'
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
 
 const ChartOne = () => {
 
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
-
-  const legendStyles = () => ({
-    root: {
-      display: 'flex',
-      margin: 'auto',
-      flexDirection: 'column',
-    },
-  });
-
-  const legendStyles1 = () => ({
-    root: {
-      height: "197px",
-    },
-  });
-
-  const legendLabelStyles = theme => ({
-    label: {
-      paddingTop: theme.spacing(1),
-      whiteSpace: 'nowrap',
-      fontSize: '13px'
-    },
-  });
-
-  const legendItemStyles = () => ({
-    item: {
-      flexDirection: 'column',
-      fontSize: '13px'
-    },
-  });
-
-  const legendRootBase = ({classes, ...restProps}) => (
-    <Legend.Root {...restProps} className={classes.root}/>
-  );
-
-  const legendLabelBase = ({classes, ...restProps}) => (
-    <Legend.Label className={classes.label} {...restProps} />
-  );
-  const legendItemBase = ({classes, ...restProps}) => (
-    <Legend.Item className={classes.item} {...restProps}  />
-  );
-  const Root = withStyles(legendStyles, {name: 'LegendRoot'})(legendRootBase);
-  const Root1 = withStyles(legendStyles1, {name: 'LegendRoot'})(legendRootBase);
-  const Label = withStyles(legendLabelStyles, {name: 'LegendLabel'})(legendLabelBase);
-  const Item = withStyles(legendItemStyles, {name: 'LegendItem'})(legendItemBase);
+  const [isMount, setIsMount] = useState(true)
+  console.log('====>data<====', data)
 
   useEffect(() => {
       getAllPosition1()
@@ -86,28 +43,41 @@ const ChartOne = () => {
 
   return (
     <div className='chart-one'>
-        <div className='total-title'>
-          Sales schedule by day
-        </div>
+      <div className='total-title'>
+        Sales schedule by day
+      </div>
+
+      {data.length < 1 ? (
+        <div className='empty'>
+          <div>
+            <img src={empty} alt='empty'/>
+          </div>
+          <div>
+            <span>Go to "my products" and sell them</span>
+          </div>
+        </div>) : (
         <Chart
+          key={Date.now()}
           data={data}
           height='200'
-          width="320"
-
+          width="370"
         >
           <PieSeries
+            key={Date.now()}
             valueField="area"
             argumentField="goods"
-            height='197'
-            width="197"
-          />
-          <Legend
-            marginLeft='20'
-            position="right"
-            fontSize="13"
+            height='200'
+            width="200"
           />
           <Animation/>
+          <Legend
+            key={Date.now()}
+            position="right"
+            font="13"
+          />
         </Chart>
+      )
+      }
     </div>
 
   );

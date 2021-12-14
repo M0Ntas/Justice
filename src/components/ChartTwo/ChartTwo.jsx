@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
 import { Chart, LineSeries } from '@devexpress/dx-react-chart-material-ui';
 import { useEffect, useState } from "react";
 import './style.scss'
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+import empty from "../../images/icons/empty.svg";
 
 const ChartTwo = () => {
 
@@ -11,6 +11,7 @@ const ChartTwo = () => {
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
   const [totalSales, setTotalSales] = useState('')
+
 
   useEffect(() => {
       getAllPosition1()
@@ -36,14 +37,13 @@ const ChartTwo = () => {
         } else {
           totalPrice = element.price * element.numberOfProducts
         }
-
         const obj = {
           day: element.salesDate,
           sales: totalPrice,
         }
         array.push(obj)
       })
-      return  array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
+      return array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
     }
     setData(productData())
 
@@ -56,24 +56,37 @@ const ChartTwo = () => {
   }, [data])
 
   return (
-    <Paper className='total-earned'>
+    <div className="chart-two">
       <div className='total-title'>
         Total earned
       </div>
-      <Chart
-        data={data}
-        height={190}
-      >
-        <LineSeries
-          valueField="sales"
-          argumentField="day"
-          color='#1CAF7F'
-        />
-      </Chart>
-      <div className='total-sales'>
-        $ {totalSales}
-      </div>
-    </Paper>
+      {data.length <1 ? (
+        <div className='empty'>
+          <div>
+            <img src={empty} alt='empty'/>
+          </div>
+          <div>
+            <span>Go to "my products" and sell them</span>
+          </div>
+        </div>) : (
+        <div>
+          <Chart
+            data={data}
+            height={105}
+          >
+            <LineSeries
+              valueField="sales"
+              argumentField="day"
+              color='#1CAF7F'
+            />
+          </Chart>
+          <div className='total-sales'>
+            $ {totalSales}
+          </div>
+        </div>
+      )}
+
+    </div>
   )
 }
 

@@ -13,28 +13,15 @@ const Header = ({setIsAuth}) => {
 
   const history = useHistory();
 
-  const menu = [
-    {
-      icon: home,
-      title: 'Main page',
-      link: '/'
-    },
-    {
-      icon: doc,
-      title: 'My Products',
-      link: '/my-products'
-    },
-    {
-      icon: sales,
-      title: 'My Sales',
-      link: '/my-sales'
-    },
-    {
-      icon: user,
-      title: 'Personal',
-      link: '/personal'
-    },
-  ]
+  const menu = [{
+    icon: home, title: 'Main page', link: '/'
+  }, {
+    icon: doc, title: 'My Products', link: '/my-products'
+  }, {
+    icon: sales, title: 'My Sales', link: '/my-sales'
+  }, {
+    icon: user, title: 'Personal', link: '/personal'
+  },]
 
   const handleLogOut = () => {
     localStorage.clear()
@@ -44,28 +31,23 @@ const Header = ({setIsAuth}) => {
 
   const handleHome = () => history.push('/')
 
-
-  return (
-    <div className="header">
-      <div onClick={handleHome} className="logo">
-        <img src={logo} alt="logo"/>
-      </div>
-      <div className="menu">
-        {menu.map((item, index) => {
-          return (
-            <NavLink key={index + 3} exact activeClassName="active" to={item.link}>
-              <img key={index + 7}  src={item.icon} alt="list-item"/>
-              {item.title}
-            </NavLink>
-          )
-        })}
-      </div>
-      <div onClick={handleLogOut} className="logout">
-        <img src={logout} alt="logout"/>
-        <span>Log out</span>
-      </div>
+  return (<div className="header">
+    <div onClick={handleHome} className="logo">
+      <img src={logo} alt="logo"/>
     </div>
-  );
+    <div className="menu">
+      {menu.map((item, index) => {
+        return (<NavLink key={index + 3} exact activeClassName="active" to={item.link}>
+          <img key={index + 7} src={item.icon} alt="list-item"/>
+          {item.title}
+        </NavLink>)
+      })}
+    </div>
+    <div onClick={handleLogOut} className="logout">
+      <img src={logout} alt="logout"/>
+      <span>Log out</span>
+    </div>
+  </div>);
 };
 
 export default Header;

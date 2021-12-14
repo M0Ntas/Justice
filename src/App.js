@@ -19,7 +19,6 @@ function App() {
         ?
         <div className="app">
           <Header setIsAuth={setIsAuth}/>
-
           <Switch>
             <Route exact path="/">
               <Home/>

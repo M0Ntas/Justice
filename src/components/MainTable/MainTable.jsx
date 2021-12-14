@@ -18,23 +18,25 @@ import { removeCategory } from "../../api/category/removeCategory";
 import { updateCategory } from "../../api/category/updateCategory";
 import { createPosition } from "../../api/position/createPosition";
 import { getUser } from "../../api/auth/getUser";
+import { getAllCategory } from "../../api/category/getAllCategory";
 
 const testComp = ({onChange, handler, placeholder}) => {
   return (
     <div className='select'>
-      <select
+      <select className='test-select'
         onChange={onChange}
         handler={handler}
         placeholder={placeholder}
+        defaultValue={'DEFAULT'}
       >
-        <option selected disabled>Select a day</option>
-        <option>Mon</option>
-        <option>Tue</option>
-        <option>Wed</option>
-        <option>Thu</option>
-        <option>Fri</option>
-        <option>Sat</option>
-        <option>Sun</option>
+        <option value="DEFAULT" disabled>Select a day</option>
+        <option value='Mon'>Mon</option>
+        <option value='Tue'>Tue</option>
+        <option value='Wed'>Wed</option>
+        <option value='Thu'>Thu</option>
+        <option value='Fri'>Fri</option>
+        <option value='Sat'>Sat</option>
+        <option value='Sun'>Sun</option>
       </select>
     </div>
   )
@@ -44,8 +46,13 @@ const MainTable = (
   {
     headTable,
     items,
+    trigger,
+    deleted,
+    setDeleted,
+    update,
+    setUpdate
   }) => {
-
+console.log('====>items111111111<====', items)
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#2B3844",
@@ -74,9 +81,14 @@ const MainTable = (
   const [edit, setEdit] = useState(false);
   const history = useHistory();
   const [form, setForm] = useState({});
-  const [deleted, setDeleted] = useState(false)
-  const [update, setUpdate] = useState(false)
+  // const [deleted, setDeleted] = useState(false)
+  // const [update, setUpdate] = useState(false)
   const [address, setAddress] = useState('')
+  const [formError, setFormError] = useState('Form cannot be empty')
+  const [changeEdit, setChangeEdit] = useState('')
+  const [validForm, setValidForm] = useState(false);
+  const [editValid, setEditValid] = useState(false)
+  const [edits, setEdits] = useState('')
 
   const sellInputs = [
     {
@@ -139,6 +151,32 @@ const MainTable = (
     }))
   };
 
+  const changeHandler = (e) => {
+    if (e.target.value > activeEl.quantityOfGoods) {
+      setFormError('You cannot sell more than you have')
+      if (!e.target.value) {
+        setFormError('Form cannot be empty')
+      }
+    } else {
+      setFormError('')
+      changeSaveHandler(e)
+    }
+  };
+
+  const changeHandlerEdit = (e) => {
+    setEdits(e.target.value)
+    if (e.target.value.length > 14) {
+      setChangeEdit('Many letters')
+      if (!e.target.value) {
+        setChangeEdit('Form cannot be empty')
+      }
+    } else {
+      setChangeEdit('')
+      changeHandler(e)
+    }
+  };
+
+
   const deleteProduct = (item) => {
     items.filter(el => el._id !== item._id)
     removeCategory(item)
@@ -165,9 +203,6 @@ const MainTable = (
     if (count === 0) {
       removeCategory(activeEl)
     }
-    if (count < 0) {
-      alert('Fields cannot be empty')
-    }
   }
 
   const handleEditProduct = () => {
@@ -177,21 +212,42 @@ const MainTable = (
     }
     updateCategory(obj)
     setEdit(false)
-    setUpdate(true)
+    setUpdate(prev => !prev)
     history.push('/my-products')
   }
 
-  const handleSellProduct = () => {
-    countProduct()
-    const odj = {
-      ...activeEl,
-      ...form
+  const handleSellProduct = async () => {
+    await countProduct()
+    if(validForm === true){
+      const odj = {
+        ...activeEl,
+        ...form
+      }
+      createPosition(odj)
+      setSell(false)
+      setUpdate(prev => !prev)
+      history.push('/my-sales')
+    } else {
+      setFormError('Error')
     }
-    createPosition(odj)
-    setSell(false)
-    setUpdate(true)
-    history.push('/my-sales')
   }
+
+  useEffect(() => {
+    if (formError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [formError])
+
+  useEffect(() => {
+    if (changeEdit) {
+      setEditValid(false)
+    } else {
+      setEditValid(true)
+    }
+  }, [changeEdit])
+
   useEffect(() => {
       getUser().then(res => {
         setAddress(res.address)
@@ -259,46 +315,59 @@ const MainTable = (
                 placeholder={item.placeholder}
                 type={item.type}
                 handler={item.handler}
-                onChange={changeSaveHandler}
+                onChange={changeHandlerEdit}
               />
             </div>
           )
         })}
-        <div className="modal-button">
-          <Button onClick={handleEditProduct}>
-            <span>Save changes</span>
-          </Button>
-        </div>
+        {editValid ? (
+          <div className="modal-button">
+            <Button onClick={handleEditProduct}>
+              <span>Save changes</span>
+            </Button>
+          </div>
+        ): (
+          <div className='error'>
+            {changeEdit}
+          </div>
+        )}
       </Modal>
       }
 
       {sell && <Modal
         onClick={setSell}
         title="Sell the product">
-        {sellInputs.map((item) => {
+        {sellInputs.map((item, index) => {
           return (
-            <div className="modal-input-wrap" key={item.id}>
+            <div className="modal-input-wrap" key={index + 44}>
               {item.component
                 ?
                 <item.component
-                  onChange={changeSaveHandler}
+                  onChange={changeHandler}
                   handler={item.handler}
                 />
                 : <Input
                   placeholder={item.placeholder}
                   type={item.type}
                   handler={item.handler}
-                  onChange={changeSaveHandler}
+                  onChange={changeHandler}
                 />
               }
             </div>
           )
         })}
-        <div className="modal-button">
-          <Button onClick={handleSellProduct}>
-            <span>Sell product</span>
-          </Button>
-        </div>
+        {validForm ? (
+          <div className="modal-button">
+            <Button onClick={handleSellProduct} disabled={!validForm}>
+              <span>Sell product</span>
+            </Button>
+          </div>
+        ) : (
+          <div className='error'>
+            {formError}
+          </div>
+        )}
+
       </Modal>
       }
     </TableContainer>

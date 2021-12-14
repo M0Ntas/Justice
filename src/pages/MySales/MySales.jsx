@@ -7,10 +7,9 @@ import { getAllPosition1 } from "../../api/position/getAllPosition1";
 const MySales = () => {
 
   const [items, setItems] = useState([])
-
   const [open, setOpen] = useState(false)
-
   const [trigger, setTrigger] = useState(false)
+
 
   const headTable = [
     'Product name',
@@ -24,13 +23,14 @@ const MySales = () => {
     'Last sale'
   ]
 
-  useEffect( ()=>{
+  useEffect(() => {
       getAllPosition1()
         .then(res => {
           setItems(res)
+          console.log('====>resSALES<====', res)
         })
     }
-    ,[])
+    , [trigger])
 
   return (
     <div className="container">
@@ -41,7 +41,12 @@ const MySales = () => {
         button="Save changes"
         setTrigger={setTrigger}
       />
-      <MainTable headTable={headTable} items={items} setItems={setItems}/>
+      <MainTable
+        trigger={trigger}
+        headTable={headTable}
+        items={items}
+        setItems={setItems}
+      />
     </div>
   );
 };

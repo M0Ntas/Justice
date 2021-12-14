@@ -2,9 +2,11 @@ import axios from "axios";
 
 export const createPosition = async (data) => {
   let msg = {}
-  await axios.post('http://localhost:5000/api/position', data, {headers:{
+  await axios.post('http://localhost:5000/api/position', data, {
+    headers: {
       "Authorization": localStorage.getItem('token')
-    }})
+    }
+  })
     .then((res) => {
       msg.status = true
     })

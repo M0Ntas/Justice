@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import {
-  Chart,
-  BarSeries,
+  Chart, BarSeries,
 } from '@devexpress/dx-react-chart-material-ui';
 import { ArgumentAxis, ValueAxis } from '@devexpress/dx-react-chart';
 import { Animation } from '@devexpress/dx-react-chart';
 import './style.scss'
 import { useEffect, useState } from "react";
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+import empty from "../../images/icons/empty.svg";
 
 const ChartThree = () => {
 
@@ -16,12 +16,11 @@ const ChartThree = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-      getAllPosition1()
-        .then(res => {
-          setProducts(res)
-        })
-    }
-    , [])
+    getAllPosition1()
+      .then(res => {
+        setProducts(res)
+      })
+  }, [])
 
   useEffect(() => {
     const dataProducts = () => {
@@ -41,8 +40,7 @@ const ChartThree = () => {
         }
 
         const obj = {
-          day: element.salesDate,
-          sales: totalPrice,
+          day: element.salesDate, sales: totalPrice,
         }
         array.push(obj)
       })
@@ -51,14 +49,26 @@ const ChartThree = () => {
     setData(dataProducts())
   }, [products])
 
-  return (
-    <Paper>
-      <div className='total-title'>
-        Sales Overview
-      </div>
+  return (<div className='chart-three-style'>
+    <div className='total-title'>
+      Sales Overview
+    </div>
+    <div className='sub-title'>
+      Graph sales for all days
+    </div>
+    {data.length <1 ? (
+      <div className='empty'>
+        <div>
+          <img src={empty} alt='empty'/>
+        </div>
+        <div>
+          <span>Go to "my products" and sell them</span>
+        </div>
+      </div>) : (
+    <div>
       <Chart
         data={data}
-        height={'569'}
+        height='450'
       >
         <ArgumentAxis
         />
@@ -71,8 +81,8 @@ const ChartThree = () => {
         />
         <Animation/>
       </Chart>
-    </Paper>
-  );
+    </div>)}
+  </div>);
 
 }
 
