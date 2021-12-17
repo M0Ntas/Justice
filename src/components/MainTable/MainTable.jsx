@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -6,28 +8,31 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import editP from '../../images/icons/editP.svg'
-import del from '../../images/icons/delete.svg';
-import './style.scss'
+import { styled } from '@mui/material/styles';
+
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
-import { styled } from '@mui/material/styles';
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+
 import { removeCategory } from "../../api/category/removeCategory";
 import { updateCategory } from "../../api/category/updateCategory";
 import { createPosition } from "../../api/position/createPosition";
 import { getUser } from "../../api/auth/getUser";
-import { getAllCategory } from "../../api/category/getAllCategory";
+
+
+import editP from '../../images/icons/editP.svg'
+import del from '../../images/icons/delete.svg';
+
+import './style.scss'
 
 const testComp = ({onChange, handler, placeholder}) => {
   return (
     <div className='select'>
       <select className='test-select'
-        onChange={onChange}
-        handler={handler}
-        placeholder={placeholder}
-        defaultValue={'DEFAULT'}
+              onChange={onChange}
+              handler={handler}
+              placeholder={placeholder}
+              defaultValue={'DEFAULT'}
       >
         <option value="DEFAULT" disabled>Select a day</option>
         <option value='Mon'>Mon</option>
@@ -46,50 +51,24 @@ const MainTable = (
   {
     headTable,
     items,
-    trigger,
     deleted,
     setDeleted,
     update,
     setUpdate
   }) => {
-console.log('====>items111111111<====', items)
-  const StyledTableCell = styled(TableCell)(({theme}) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#2B3844",
-      color: "white",
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
 
-  const StyledTableRow = styled(TableRow)(({theme}) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      boxShadow: "none",
-      borderRadius: "3",
-    },
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
 
   const [activeEl, setActiveEl] = useState({})
   const [sell, setSell] = useState(false);
   const [edit, setEdit] = useState(false);
   const history = useHistory();
   const [form, setForm] = useState({});
-  // const [deleted, setDeleted] = useState(false)
-  // const [update, setUpdate] = useState(false)
   const [address, setAddress] = useState('')
   const [formError, setFormError] = useState('Form cannot be empty')
   const [changeEdit, setChangeEdit] = useState('')
   const [validForm, setValidForm] = useState(false);
   const [editValid, setEditValid] = useState(false)
-  const [edits, setEdits] = useState('')
-
+  const [, setEdits] = useState('')
   const sellInputs = [
     {
       type: 'number',
@@ -103,7 +82,6 @@ console.log('====>items111111111<====', items)
       handler: 'salesDate',
     },
   ];
-
   const editInputs = [
     {
       type: 'text',
@@ -143,6 +121,52 @@ console.log('====>items111111111<====', items)
     },
   ]
 
+  useEffect(() => {
+    if (formError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [formError])
+
+  useEffect(() => {
+    if (changeEdit) {
+      setEditValid(false)
+    } else {
+      setEditValid(true)
+    }
+  }, [changeEdit])
+
+  useEffect(() => {
+      getUser().then(res => {
+        setAddress(res.address)
+      })
+    }
+    , [deleted, update,])
+
+  const StyledTableCell = styled(TableCell)(({theme}) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#2B3844",
+      color: "white",
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({theme}) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      boxShadow: "none",
+      borderRadius: "3",
+    },
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
+
   const changeSaveHandler = event => {
     const key = event.target.getAttribute('handler')
     setForm((prevState) => ({
@@ -176,7 +200,6 @@ console.log('====>items111111111<====', items)
     }
   };
 
-
   const deleteProduct = (item) => {
     items.filter(el => el._id !== item._id)
     removeCategory(item)
@@ -188,6 +211,7 @@ console.log('====>items111111111<====', items)
     setSell(true)
     setActiveEl(sellProduct[0])
   }
+
   const selectProduct = (item) => {
     const sellProduct = items.filter(el => el._id === item._id)
     setEdit(true)
@@ -218,7 +242,7 @@ console.log('====>items111111111<====', items)
 
   const handleSellProduct = async () => {
     await countProduct()
-    if(validForm === true){
+    if (validForm === true) {
       const odj = {
         ...activeEl,
         ...form
@@ -231,29 +255,6 @@ console.log('====>items111111111<====', items)
       setFormError('Error')
     }
   }
-
-  useEffect(() => {
-    if (formError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [formError])
-
-  useEffect(() => {
-    if (changeEdit) {
-      setEditValid(false)
-    } else {
-      setEditValid(true)
-    }
-  }, [changeEdit])
-
-  useEffect(() => {
-      getUser().then(res => {
-        setAddress(res.address)
-      })
-    }
-    , [deleted, update,])
 
   return (
     <TableContainer component={Paper}>
@@ -303,7 +304,6 @@ console.log('====>items111111111<====', items)
           ))}
         </TableBody>
       </Table>
-
       {edit && <Modal
         onClick={setEdit}
         title="Editing a product">
@@ -326,14 +326,13 @@ console.log('====>items111111111<====', items)
               <span>Save changes</span>
             </Button>
           </div>
-        ): (
+        ) : (
           <div className='error'>
             {changeEdit}
           </div>
         )}
       </Modal>
       }
-
       {sell && <Modal
         onClick={setSell}
         title="Sell the product">
@@ -367,7 +366,6 @@ console.log('====>items111111111<====', items)
             {formError}
           </div>
         )}
-
       </Modal>
       }
     </TableContainer>

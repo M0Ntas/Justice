@@ -1,8 +1,9 @@
 import axios from "axios";
+const PORT = process.env.REACT_APP_PORT;
 
 export const getUser = async () => {
   let products
-  await axios.get('http://localhost:5000/api/user', {
+  await axios.get(`http://localhost:${PORT}/api/user`, {
     headers: {
       "Authorization": localStorage.getItem('token')
     }

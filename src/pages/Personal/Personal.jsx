@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import './styles.scss'
+
 import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import { getUser } from "../../api/auth/getUser";
 import { updateUser } from "../../api/auth/updateUser";
 
+import './styles.scss'
+
+
 const Personal = () => {
 
-  const [open, setOpen] = useState(false);
-  const [trigger, setTrigger] = useState(false)
-
+  const [, setOpen] = useState(false);
+  const [, setTrigger] = useState(false)
   const [inputsLeft, setInputsLeft] = useState([
     {
       type: 'text',
@@ -41,7 +43,7 @@ const Personal = () => {
     },
   ])
 
-  const [inputsRight, setInputsRight] = useState([
+  const [inputsRight, ] = useState([
     {
       type: 'text',
       id: Date.now(),
@@ -75,6 +77,19 @@ const Personal = () => {
     value: ''
   });
 
+  useEffect(() => {
+    getUser().then((res) => setForm({
+      firstName: res.firstName,
+      companyName: res.companyName,
+      address: res.address,
+      oldPassword: '',
+      lastName: res.lastName,
+      email: res.email,
+      newPassword: '',
+      _id: res._id
+    }))
+  }, [])
+
   const changeHandler = event => {
     const key = event.target.getAttribute('handler')
     setForm({
@@ -98,7 +113,6 @@ const Personal = () => {
               }
               return item
             })
-            console.log('====><====', prev)
             return [
               ...prev
             ]
@@ -107,18 +121,6 @@ const Personal = () => {
       })
   }
 
-  useEffect(() => {
-    getUser().then((res) => setForm({
-      firstName: res.firstName,
-      companyName: res.companyName,
-      address: res.address,
-      oldPassword: '',
-      lastName: res.lastName,
-      email: res.email,
-      newPassword: '',
-      _id: res._id
-    }))
-  }, [])
 
   return (
     <div className="container">

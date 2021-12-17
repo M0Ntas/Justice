@@ -1,14 +1,14 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import {
-  Chart, BarSeries,
-} from '@devexpress/dx-react-chart-material-ui';
+import { useEffect, useState } from "react";
+
+import { Chart, BarSeries } from '@devexpress/dx-react-chart-material-ui';
 import { ArgumentAxis, ValueAxis } from '@devexpress/dx-react-chart';
 import { Animation } from '@devexpress/dx-react-chart';
-import './style.scss'
-import { useEffect, useState } from "react";
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+
 import empty from "../../images/icons/empty.svg";
+
+import './style.scss'
 
 const ChartThree = () => {
 

@@ -1,8 +1,9 @@
 import axios from "axios";
+const PORT = process.env.REACT_APP_PORT;
 
 export const registerUser = async (data) => {
   let msg = {}
-  await axios.post('http://localhost:5000/api/auth/register', data)
+  await axios.post(`http://localhost:${PORT}/api/auth/register`, data)
     .then((res) => {
       msg.status = true
     })

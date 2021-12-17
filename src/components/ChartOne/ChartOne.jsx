@@ -1,21 +1,24 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
+
 import {
   Chart,
   Legend,
   PieSeries,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Animation } from '@devexpress/dx-react-chart';
-import { useEffect, useState } from "react";
-import './style.scss'
-import empty from '../../images/icons/empty.svg'
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+
+import empty from '../../images/icons/empty.svg'
+
+import './style.scss'
+
+
 
 const ChartOne = () => {
 
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
-  const [isMount, setIsMount] = useState(true)
-  console.log('====>data<====', data)
 
   useEffect(() => {
       getAllPosition1()

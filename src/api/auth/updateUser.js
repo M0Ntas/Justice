@@ -1,8 +1,9 @@
 import axios from "axios";
+const PORT = process.env.REACT_APP_PORT;
 
 export const updateUser = async (data) => {
   let products = {}
-  await axios.patch(`http://localhost:5000/api/user/${data._id}`, data, {
+  await axios.patch(`http://localhost:${PORT}/api/user/${data._id}`, data, {
     headers: {
       "Authorization": localStorage.getItem('token')
     }

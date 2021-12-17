@@ -1,6 +1,8 @@
 import React from 'react';
-import './styles.scss'
+
 import close from "../../images/icons/close.svg"
+
+import './styles.scss'
 
 const Modal = ({onClick, title, children}) => {
 

@@ -1,23 +1,36 @@
-import Title from "../Title/Title";
-import Button from "../Button/Button";
 import React, { useEffect, useState } from "react";
-import './style.scss'
-import button from "../../images/icons/button.svg";
-import Modal from "../Modal/Modal";
-import { inputsRender } from "../../utils/inputsRender";
-import Input from "../Input/Input";
-import plus from "../../images/icons/plus.svg";
+
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import moment from "moment";
+
+import Modal from "../Modal/Modal";
+import Title from "../Title/Title";
+import Button from "../Button/Button";
+import Input from "../Input/Input";
 import { createCategory } from "../../api/category/createCategory";
+import { inputsRender } from "../../utils/inputsRender";
+
+import button from "../../images/icons/button.svg";
+import plus from "../../images/icons/plus.svg";
+
+import './style.scss'
+
 
 const TitleHeader = ({title, subtitle, setTrigger}) => {
 
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
-  const [create, setCreate] = useState('')
+  const [, setCreate] = useState('')
   const [validForm, setValidForm] = useState(false);
   const [formError, setFormError] = useState('Form cannot be empty')
+
+  useEffect(() => {
+    if (formError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [formError])
 
   const history = useHistory();
 
@@ -30,13 +43,7 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
     })
   };
 
-  useEffect(() => {
-    if (formError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [formError])
+
 
   const handleAddProduct = (e) => {
     createCategory(form)
@@ -101,7 +108,6 @@ const TitleHeader = ({title, subtitle, setTrigger}) => {
             {formError}
           </div>
         )}
-
       </Modal>
       }
     </div>

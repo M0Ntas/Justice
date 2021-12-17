@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import './styles.scss'
+
 import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import ChartThree from "../../components/ChartThree/ChartThree";
 import ChartTwo from "../../components/ChartTwo/ChartTwo";
 import ChartOne from "../../components/ChartOne/ChartOne";
 
+import './styles.scss'
 
 const Home = () => {
 
-  const [open, setOpen] = useState(false)
-  const [trigger, setTrigger] = useState(false)
+  const [, setOpen] = useState(false)
+  const [, setTrigger] = useState(false)
 
   return (<div className="container">
       <TitleHeader

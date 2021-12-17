@@ -1,9 +1,13 @@
-import './style.scss'
-import Input from "../../components/Input/Input";
-import img from '../../images/icons/signin.svg'
+import React, { useEffect, useState } from "react";
+
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import { useEffect, useState } from "react";
+
 import { registerUser } from "../../api/auth/registerUser";
+import Input from "../../components/Input/Input";
+
+
+import img from '../../images/icons/signin.svg'
+import './style.scss'
 
 const SignUp = () => {
 
@@ -26,9 +30,6 @@ const SignUp = () => {
   const [lastNameError, setLastNameError] = useState('Last Name cannot be empty')
   const [companyNameError, setCompanyNameError] = useState('Company Name cannot be empty');
   const [validForm, setValidForm] = useState(false);
-
-  const history = useHistory();
-
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -39,6 +40,30 @@ const SignUp = () => {
     id: Date.now(),
   });
 
+  useEffect(() => {
+    if (password !== repeatPassword){
+      setRepeatPasswordError('Password mismatch')
+    }
+  },[repeatPassword])
+
+  useEffect(() => {
+    if (emailError || passwordError || firstNameError || lastNameError || companyNameError || repeatPasswordError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [emailError, passwordError, firstNameError, lastNameError, companyNameError, repeatPasswordError])
+
+  useEffect(() => {
+    if (form.password === form.repeatPassword) {
+      setValidForm(true)
+    } else {
+      setValidForm(false)
+    }
+  }, [form])
+
+  const history = useHistory();
+
   const changeHandler = event => {
     const key = event.target.getAttribute('handler')
     setForm({
@@ -48,7 +73,6 @@ const SignUp = () => {
   };
 
   const handleCreateAccount = () => {
-
     if (form.email && form.password) {
       registerUser(form)
         .then(res => {
@@ -100,12 +124,6 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    if (password !== repeatPassword){
-      setRepeatPasswordError('Password mismatch')
-    }
-  },[repeatPassword])
-
   const firstNameHandler = (e) => {
     setFirstName(e.target.value)
     if (e.target.value.length < 1 || e.target.value.length > 8) {
@@ -146,7 +164,6 @@ const SignUp = () => {
   };
 
   const blurHandler = (e) => {
-    console.log('====>e.target.name<====', e.target.name)
     switch (e.target.name) {
       case 'email':
         setEmailDirty(true)
@@ -168,22 +185,6 @@ const SignUp = () => {
         break
     }
   };
-
-  useEffect(() => {
-    if (emailError || passwordError || firstNameError || lastNameError || companyNameError || repeatPasswordError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [emailError, passwordError, firstNameError, lastNameError, companyNameError, repeatPasswordError])
-
-  useEffect(() => {
-    if (form.password === form.repeatPassword) {
-      setValidForm(true)
-    } else {
-      setValidForm(false)
-    }
-  }, [form])
 
   return (
     <div className='sign-up-page'>

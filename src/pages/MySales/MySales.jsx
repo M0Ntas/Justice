@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import './styles.scss'
+
 import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import MainTable from "../../components/MainTable/MainTable";
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
 
+import './styles.scss'
+
 const MySales = () => {
 
   const [items, setItems] = useState([])
-  const [open, setOpen] = useState(false)
+  const [, setOpen] = useState(false)
   const [trigger, setTrigger] = useState(false)
-
-
   const headTable = [
     'Product name',
     'Store',
@@ -27,7 +27,6 @@ const MySales = () => {
       getAllPosition1()
         .then(res => {
           setItems(res)
-          console.log('====>resSALES<====', res)
         })
     }
     , [trigger])

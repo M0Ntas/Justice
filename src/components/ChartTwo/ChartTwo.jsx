@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { Chart, LineSeries } from '@devexpress/dx-react-chart-material-ui';
 import { useEffect, useState } from "react";
-import './style.scss'
+
+import { Chart, LineSeries } from '@devexpress/dx-react-chart-material-ui';
 import { getAllPosition1 } from "../../api/position/getAllPosition1";
+
+
 import empty from "../../images/icons/empty.svg";
+import './style.scss'
 
 const ChartTwo = () => {
 
@@ -11,7 +14,6 @@ const ChartTwo = () => {
   const [data, setData] = useState([])
   const [products, setProducts] = useState([])
   const [totalSales, setTotalSales] = useState('')
-
 
   useEffect(() => {
       getAllPosition1()

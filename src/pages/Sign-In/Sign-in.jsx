@@ -1,9 +1,14 @@
-import './style.scss'
-import Input from "../../components/Input/Input";
-import img from '../../images/icons/signin.svg'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+
+import Input from "../../components/Input/Input";
 import { authUser } from "../../api/auth/authUser";
+
+import img from '../../images/icons/signin.svg'
+
+import './style.scss'
+import { useDispatch } from "react-redux";
 
 const SignIn = ({setIsAuth}) => {
 
@@ -15,11 +20,20 @@ const SignIn = ({setIsAuth}) => {
   const [passwordError, setPasswordError] = useState('Password cannot be empty');
   const [validForm, setValidForm] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch()
 
   const [formUsers, setFormUsers] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (emailError || passwordError) {
+      setValidForm(false)
+    } else {
+      setValidForm(true)
+    }
+  }, [emailError, passwordError])
 
   const changeHandler = event => {
     const key = event.target.getAttribute('handler')
@@ -35,6 +49,8 @@ const SignIn = ({setIsAuth}) => {
         .then(res => {
           if (res.status) {
             localStorage.setItem('token', res.token)
+            ////////redux store
+            // dispatch(writeToken(res.token))
             setIsAuth(true)
             history.push('/')
           } else {
@@ -89,14 +105,6 @@ const SignIn = ({setIsAuth}) => {
         break
     }
   };
-
-  useEffect(() => {
-    if (emailError || passwordError) {
-      setValidForm(false)
-    } else {
-      setValidForm(true)
-    }
-  }, [emailError, passwordError])
 
   return (
     <div className='sign-in-page'>

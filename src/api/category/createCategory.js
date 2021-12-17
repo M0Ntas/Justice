@@ -1,8 +1,9 @@
 import axios from "axios";
+const PORT = process.env.REACT_APP_PORT;
 
 export const createCategory = async (data) => {
   let msg = {}
-  await axios.post('http://localhost:5000/api/category', data, {
+  await axios.post(`http://localhost:${PORT}/api/category`, data, {
     headers: {
       "Authorization": localStorage.getItem('token')
     }

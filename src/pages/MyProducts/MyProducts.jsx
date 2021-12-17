@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import './styles.scss'
+
 import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import MainTable from "../../components/MainTable/MainTable";
 import { getAllCategory } from "../../api/category/getAllCategory";
 
-const MyProducts = () => {
+import './styles.scss'
+import { asyncGetAllCategory } from "../../redux/store/categoryReducer";
+import { useDispatch, useSelector } from "react-redux";
 
+const MyProducts = () => {
+  const dispatch = useDispatch()
+const category = useSelector(state => state?.categoryReducer.category)
+  console.log('====>category<====', category)
+  const [, setOpen] = useState(false);
+  const [trigger, setTrigger] = useState(false)
+  const [items, setItems] = useState([]);
+  const [deleted, setDeleted] = useState(false)
+  const [update, setUpdate] = useState(false)
   const headTable = [
     'Product name',
     'Store',
@@ -18,21 +29,18 @@ const MyProducts = () => {
     'Action'
   ]
 
-  const [open, setOpen] = useState(false);
-  const [trigger, setTrigger] = useState(false)
-  const [items, setItems] = useState([]);
-  const [deleted, setDeleted] = useState(false)
-  const [update, setUpdate] = useState(false)
-
- console.log('====>items44444444444<====', items)
   useEffect(() => {
-      getAllCategory()
-        .then(res => {
-          setItems(res)
-          console.log('====>resPRODUCTS<====', res)
-        })
+      // getAllCategory()
+      //   .then(res => {
+      //     setItems(res)
+      //   })
+    setItems(category)
     }
     , [trigger, deleted, update])
+
+  useEffect(() => {
+    dispatch(asyncGetAllCategory())
+  }, [])
 
   return (
     <div className="container">

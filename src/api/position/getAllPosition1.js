@@ -1,8 +1,9 @@
 import axios from "axios";
+const PORT = process.env.REACT_APP_PORT;
 
 export const getAllPosition1 = async () => {
   let products
-  await axios.get('http://localhost:5000/api/position', {
+  await axios.get(`http://localhost:${PORT}/api/position`, {
     headers: {
       "Authorization": localStorage.getItem('token')
     }
