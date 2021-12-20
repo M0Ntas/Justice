@@ -24,6 +24,9 @@ import editP from '../../images/icons/editP.svg'
 import del from '../../images/icons/delete.svg';
 
 import './style.scss'
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCategoryRedux } from "../../redux/store/categoryReducer";
 
 const testComp = ({onChange, handler, placeholder}) => {
   return (
@@ -50,18 +53,20 @@ const testComp = ({onChange, handler, placeholder}) => {
 const MainTable = (
   {
     headTable,
-    items,
     deleted,
     setDeleted,
     update,
     setUpdate
-  }) => {
-
+  }
+  ) => {
+  
 
   const [activeEl, setActiveEl] = useState({})
+  const dispatch = useDispatch()
   const [sell, setSell] = useState(false);
   const [edit, setEdit] = useState(false);
   const history = useHistory();
+  const location = useLocation()
   const [form, setForm] = useState({});
   const [address, setAddress] = useState('')
   const [formError, setFormError] = useState('Form cannot be empty')
@@ -69,6 +74,8 @@ const MainTable = (
   const [validForm, setValidForm] = useState(false);
   const [editValid, setEditValid] = useState(false)
   const [, setEdits] = useState('')
+  const store = useSelector(state => state)
+  const items = location.pathname === '/my-products' ? store.categoryReducer.category : store.productReducer.products
   const sellInputs = [
     {
       type: 'number',
@@ -142,7 +149,7 @@ const MainTable = (
         setAddress(res.address)
       })
     }
-    , [deleted, update,])
+    , [store, update,])
 
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -201,7 +208,8 @@ const MainTable = (
   };
 
   const deleteProduct = (item) => {
-    items.filter(el => el._id !== item._id)
+    const removeItem = items.filter(el => el._id !== item._id)
+    dispatch(deleteCategoryRedux(removeItem))
     removeCategory(item)
     setDeleted(prevState => !prevState)
   };

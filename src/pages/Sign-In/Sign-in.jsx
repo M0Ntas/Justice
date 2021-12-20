@@ -9,6 +9,9 @@ import img from '../../images/icons/signin.svg'
 
 import './style.scss'
 import { useDispatch } from "react-redux";
+import { asyncGetUser } from "../../redux/store/userReducer";
+import { asyncGetAllProducts } from "../../redux/store/productsReducer";
+import { asyncGetAllCategory } from "../../redux/store/categoryReducer";
 
 const SignIn = ({setIsAuth}) => {
 
@@ -43,27 +46,37 @@ const SignIn = ({setIsAuth}) => {
     })
   };
 
-  const handleLogIn = () => {
+  const handleLogIn = async () => {
     if (formUsers.email && formUsers.password) {
-      authUser(formUsers)
-        .then(res => {
-          if (res.status) {
-            localStorage.setItem('token', res.token)
-            ////////redux store
-            // dispatch(writeToken(res.token))
-            setIsAuth(true)
-            history.push('/')
-          } else {
-            if (res.label === 'password') {
-              ////password error
-              setPasswordError(res.text)
+      const test = async () => {
+        await authUser(formUsers)
+          .then(res => {
+            if (res.status) {
+              localStorage.setItem('token', res.token)
+              ////////redux store
+              // dispatch(writeToken(res.token))
+              setIsAuth(true)
+              history.push('/')
             } else {
-              ////email err
+              if (res.label === 'password') {
+                ////password error
+                setPasswordError(res.text)
+              } else {
+                ////email err
+                setEmailError(res.text)
+              }
               setEmailError(res.text)
             }
-            setEmailError(res.text)
-          }
-        })
+          })
+      }
+      test()
+        .then(res =>
+          dispatch(asyncGetUser())
+          )
+        .then(res =>
+        dispatch(asyncGetAllProducts()))
+        .then(res =>
+        dispatch(asyncGetAllCategory()))
     }
   };
 

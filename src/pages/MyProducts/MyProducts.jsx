@@ -10,11 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 const MyProducts = () => {
   const dispatch = useDispatch()
-const category = useSelector(state => state?.categoryReducer.category)
-  console.log('====>category<====', category)
+  // const category = useSelector(state => state?.categoryReducer.category)
   const [, setOpen] = useState(false);
   const [trigger, setTrigger] = useState(false)
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
   const [deleted, setDeleted] = useState(false)
   const [update, setUpdate] = useState(false)
   const headTable = [
@@ -28,19 +27,19 @@ const category = useSelector(state => state?.categoryReducer.category)
     'Weight/Volume',
     'Action'
   ]
-
-  useEffect(() => {
-      // getAllCategory()
-      //   .then(res => {
-      //     setItems(res)
-      //   })
-    setItems(category)
-    }
-    , [trigger, deleted, update])
+  //
+  // useEffect(() => {
+  //     // getAllCategory()
+  //     //   .then(res => {
+  //     //     setItems(res)
+  //     //   })
+  //     setItems(category)
+  //   }
+  //   , [trigger, deleted, update])
 
   useEffect(() => {
     dispatch(asyncGetAllCategory())
-  }, [])
+  }, [deleted])
 
   return (
     <div className="container">
@@ -55,8 +54,6 @@ const category = useSelector(state => state?.categoryReducer.category)
         setUpdate={setUpdate}
         trigger={trigger}
         headTable={headTable}
-        items={items}
-        setItems={setItems}
         deleted={deleted}
         setDeleted={setDeleted}
       />

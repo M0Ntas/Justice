@@ -11,7 +11,6 @@ export const getAllCategoryApi = async () => {
   })
     .then((res) => {
       products = res.data
-      console.log('====>products<====', products)
     })
     .catch(err => {
       console.log('====>err<====', err)
@@ -19,12 +18,11 @@ export const getAllCategoryApi = async () => {
   return products
 }
 
-
 function* fetchUserWorker() {
   const data = yield call(getAllCategoryApi)
   yield put(getAllCategory(data))
 }
 
-export function* userWatcher () {
+export function* categoryWatcher () {
   yield takeEvery(ASYNC_GET_ALL_CATEGORY, fetchUserWorker)
 }

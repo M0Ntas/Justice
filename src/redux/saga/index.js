@@ -1,6 +1,8 @@
 import {all} from "redux-saga/effects"
-import { userWatcher } from "./categorySaga";
+import { categoryWatcher } from "./categorySaga";
+import { productsWatcher } from "./productsSaga";
+import { userWatcher } from "./userSaga";
 
 export function* rootWatcher () {
-  yield all([userWatcher()])
+  yield all([categoryWatcher(), productsWatcher(), userWatcher()])
 }

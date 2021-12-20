@@ -7,19 +7,22 @@ import { getAllPosition1 } from "../../api/position/getAllPosition1";
 
 import empty from "../../images/icons/empty.svg";
 import './style.scss'
+import { useSelector } from "react-redux";
 
 const ChartTwo = () => {
 
 
   const [data, setData] = useState([])
-  const [products, setProducts] = useState([])
+  const [product, setProduct] = useState([])
   const [totalSales, setTotalSales] = useState('')
-
+  const products = useSelector(state => state?.productReducer.products)
+  console.log('====>products<====', products)
   useEffect(() => {
-      getAllPosition1()
-        .then(res => {
-          setProducts(res)
-        })
+      // getAllPosition1()
+      //   .then(res => {
+      //     setProducts(res)
+      //   })
+    setProduct(products)
     }
     , [])
 
@@ -27,8 +30,8 @@ const ChartTwo = () => {
     const productData = () => {
       const array = []
       let totalPrice = 0
-      products.forEach((element) => {
-        const weekDay = products.filter(item => item.salesDate === element.salesDate)
+      product.forEach((element) => {
+        const weekDay = product.filter(item => item.salesDate === element.salesDate)
         if (weekDay.length > 1) {
           const arrayWeek = []
           weekDay.forEach(week => {
@@ -49,7 +52,7 @@ const ChartTwo = () => {
     }
     setData(productData())
 
-  }, [products])
+  }, [product])
 
   useEffect(() => {
     let total = 0

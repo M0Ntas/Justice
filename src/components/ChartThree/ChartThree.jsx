@@ -9,25 +9,28 @@ import { getAllPosition1 } from "../../api/position/getAllPosition1";
 import empty from "../../images/icons/empty.svg";
 
 import './style.scss'
+import { useSelector } from "react-redux";
 
 const ChartThree = () => {
 
   const [data, setData] = useState([])
-  const [products, setProducts] = useState([])
+  const [product, setProduct] = useState([])
+  const products = useSelector(state => state?.productReducer.products)
 
   useEffect(() => {
-    getAllPosition1()
-      .then(res => {
-        setProducts(res)
-      })
+    // getAllPosition1()
+    //   .then(res => {
+    //     setProducts(res)
+    //   })
+    setProduct(products)
   }, [])
 
   useEffect(() => {
     const dataProducts = () => {
       const array = []
       let totalPrice = 0
-      products.forEach((element) => {
-        const weekDay = products.filter(item => item.salesDate === element.salesDate)
+      product.forEach((element) => {
+        const weekDay = product.filter(item => item.salesDate === element.salesDate)
         if (weekDay.length > 1) {
           const arrayWeek = []
           weekDay.forEach(week => {
@@ -47,7 +50,7 @@ const ChartThree = () => {
       return array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
     }
     setData(dataProducts())
-  }, [products])
+  }, [product])
 
   return (<div className='chart-three-style'>
     <div className='total-title'>

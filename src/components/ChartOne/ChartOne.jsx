@@ -12,26 +12,29 @@ import { getAllPosition1 } from "../../api/position/getAllPosition1";
 import empty from '../../images/icons/empty.svg'
 
 import './style.scss'
+import { useSelector } from "react-redux";
 
 
 
 const ChartOne = () => {
 
   const [data, setData] = useState([])
-  const [products, setProducts] = useState([])
+  const [product, setProduct] = useState([])
+  const products = useSelector(state => state?.productReducer.products)
 
   useEffect(() => {
-      getAllPosition1()
-        .then(res => {
-          setProducts(res)
-        })
+      // getAllPosition1()
+      //   .then(res => {
+      //     setProducts(res)
+      //   })
+    setProduct(products)
     }
     , [])
 
   useEffect(() => {
     const dataProduct = () => {
       const array = []
-      products.reverse().forEach((element, index) => {
+      product.reverse().forEach((element, index) => {
         if (index >= 4) return
         const obj = {
           goods: element.productName,
@@ -42,7 +45,7 @@ const ChartOne = () => {
       return array
     }
     setData(dataProduct())
-  }, [products])
+  }, [product])
 
   return (
     <div className='chart-one'>

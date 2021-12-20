@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import TitleHeader from "../../components/TitleHeader/TitleHeader";
 import MainTable from "../../components/MainTable/MainTable";
-import { getAllPosition1 } from "../../api/position/getAllPosition1";
 
-import './styles.scss'
+import './styles.scss';
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetAllProducts } from "../../redux/store/productsReducer";
 
 const MySales = () => {
 
+  const dispatch = useDispatch()
+  const products = useSelector(state => state?.productReducer.products)
   const [items, setItems] = useState([])
   const [, setOpen] = useState(false)
   const [trigger, setTrigger] = useState(false)
@@ -24,12 +27,18 @@ const MySales = () => {
   ]
 
   useEffect(() => {
-      getAllPosition1()
-        .then(res => {
-          setItems(res)
-        })
+      // getAllPosition1()
+      //   .then(res => {
+      //     setItems(res)
+      //   })
+      setItems(products)
     }
     , [trigger])
+
+  useEffect(() => {
+    dispatch(asyncGetAllProducts())
+  }, [])
+
 
   return (
     <div className="container">
