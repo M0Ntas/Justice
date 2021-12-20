@@ -15,7 +15,6 @@ import './style.scss'
 import { useSelector } from "react-redux";
 
 
-
 const ChartOne = () => {
 
   const [data, setData] = useState([])
@@ -27,14 +26,15 @@ const ChartOne = () => {
       //   .then(res => {
       //     setProducts(res)
       //   })
-    setProduct(products)
+      setProduct(products)
     }
     , [])
+  console.log('====>product<====', product)
 
   useEffect(() => {
     const dataProduct = () => {
       const array = []
-      product.reverse().forEach((element, index) => {
+      products.reverse().forEach((element, index) => {
         if (index >= 4) return
         const obj = {
           goods: element.productName,
@@ -45,7 +45,7 @@ const ChartOne = () => {
       return array
     }
     setData(dataProduct())
-  }, [product])
+  }, [products])
 
   return (
     <div className='chart-one'>
@@ -53,7 +53,7 @@ const ChartOne = () => {
         Sales schedule by day
       </div>
 
-      {data.length < 1 ? (
+      {products.length < 1 ? (
         <div className='empty'>
           <div>
             <img src={empty} alt='empty'/>

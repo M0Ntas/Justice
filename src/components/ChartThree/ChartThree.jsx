@@ -29,8 +29,8 @@ const ChartThree = () => {
     const dataProducts = () => {
       const array = []
       let totalPrice = 0
-      product.forEach((element) => {
-        const weekDay = product.filter(item => item.salesDate === element.salesDate)
+      products.forEach((element) => {
+        const weekDay = products.filter(item => item.salesDate === element.salesDate)
         if (weekDay.length > 1) {
           const arrayWeek = []
           weekDay.forEach(week => {
@@ -50,7 +50,7 @@ const ChartThree = () => {
       return array.filter((v, i, a) => a.findIndex(t => (t.sales === v.sales)) === i)
     }
     setData(dataProducts())
-  }, [product])
+  }, [products])
 
   return (<div className='chart-three-style'>
     <div className='total-title'>
@@ -59,7 +59,7 @@ const ChartThree = () => {
     <div className='sub-title'>
       Graph sales for all days
     </div>
-    {data.length <1 ? (
+    {products.length <1 ? (
       <div className='empty'>
         <div>
           <img src={empty} alt='empty'/>

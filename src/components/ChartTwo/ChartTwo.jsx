@@ -30,8 +30,8 @@ const ChartTwo = () => {
     const productData = () => {
       const array = []
       let totalPrice = 0
-      product.forEach((element) => {
-        const weekDay = product.filter(item => item.salesDate === element.salesDate)
+      products.forEach((element) => {
+        const weekDay = products.filter(item => item.salesDate === element.salesDate)
         if (weekDay.length > 1) {
           const arrayWeek = []
           weekDay.forEach(week => {
@@ -52,7 +52,7 @@ const ChartTwo = () => {
     }
     setData(productData())
 
-  }, [product])
+  }, [products])
 
   useEffect(() => {
     let total = 0
@@ -65,7 +65,7 @@ const ChartTwo = () => {
       <div className='total-title'>
         Total earned
       </div>
-      {data.length <1 ? (
+      {products.length <1 ? (
         <div className='empty'>
           <div>
             <img src={empty} alt='empty'/>
